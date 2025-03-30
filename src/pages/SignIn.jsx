@@ -1,34 +1,37 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignIn() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
+    email: "", // Changed from username to email
+    password: ""
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error('Invalid username or password');
+        throw new Error("Invalid email or password");
       }
 
-      const user = await response.json();
-      toast.success('Login successful!');
-      localStorage.setItem('token', user.token);
-      localStorage.setItem('user', JSON.stringify(user));
-      setTimeout(() => navigate('/'), 1500);
+      const data = await response.json();
+      toast.success("Login successful!");
+
+      // Store JWT token securely
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify({ email: data.user.email, username: data.user.username }));
+
+      setTimeout(() => navigate("/"), 1500);
     } catch (error) {
       toast.error(error.message);
     }
@@ -40,15 +43,6 @@ function SignIn() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-600 relative">
-      {/* Background Image */}
-      <img
-        src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=1920&q=80"
-        alt="Luxury Car"
-        className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div> {/* Dark overlay */}
-
-      {/* Login Form with Glassmorphism Effect */}
       <motion.div 
         className="relative z-10 bg-white bg-opacity-10 backdrop-blur-md p-8 shadow-lg rounded-lg max-w-md w-full text-white"
         initial={{ opacity: 0, y: -20 }}
@@ -59,16 +53,13 @@ function SignIn() {
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <motion.input
-            type="text"
-            name="username"
-            value={formData.username}
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            placeholder="Username"
+            placeholder="Email"
             className="w-full px-4 py-2 border border-white bg-transparent rounded-md focus:ring-2 focus:ring-primary text-white placeholder-gray-300"
             required
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
           />
           
           <motion.input
@@ -79,9 +70,6 @@ function SignIn() {
             placeholder="Password"
             className="w-full px-4 py-2 border border-white bg-transparent rounded-md focus:ring-2 focus:ring-primary text-white placeholder-gray-300"
             required
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
           />
           
           <motion.button 
