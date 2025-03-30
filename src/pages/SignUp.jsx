@@ -1,34 +1,36 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
+    username: "",
+    email: "",
+    password: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/users/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
+      const result = await response.json(); // Get response JSON
+
       if (!response.ok) {
-        throw new Error('Registration failed');
+        throw new Error(result.message || "Registration failed");
       }
 
-      toast.success('Registration successful!');
-      setTimeout(() => navigate('/signin'), 1500); // Redirect to login after success
+      toast.success("Registration successful!");
+      setTimeout(() => navigate("/signin"), 1500); // Redirect to login after success
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message); // Show specific error message
     }
   };
 
@@ -47,14 +49,14 @@ function SignUp() {
       <div className="absolute inset-0 bg-black bg-opacity-50"></div> {/* Dark overlay */}
 
       {/* Signup Form with Glassmorphism Effect */}
-      <motion.div 
+      <motion.div
         className="relative z-10 bg-white bg-opacity-10 backdrop-blur-md p-8 shadow-lg rounded-lg max-w-md w-full text-white"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
         <h2 className="text-3xl font-bold text-center mb-6">Sign Up</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <motion.input
             type="text"
@@ -68,7 +70,7 @@ function SignUp() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           />
-          
+
           <motion.input
             type="email"
             name="email"
@@ -94,9 +96,9 @@ function SignUp() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           />
-          
-          <motion.button 
-            type="submit" 
+
+          <motion.button
+            type="submit"
             className="w-full bg-primary text-white py-2 rounded-md hover:bg-blue-600 transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -106,7 +108,10 @@ function SignUp() {
         </form>
 
         <p className="text-center mt-4 text-gray-300">
-          Already have an account? <Link to="/signin" className="text-blue-400 font-semibold hover:underline">Sign In</Link>
+          Already have an account?{" "}
+          <Link to="/signin" className="text-blue-400 font-semibold hover:underline">
+            Sign In
+          </Link>
         </p>
       </motion.div>
 
