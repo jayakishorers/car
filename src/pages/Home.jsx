@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import { FiMapPin, FiCalendar, FiSearch, FiPhoneCall } from "react-icons/fi";
+import { FiMapPin, FiCalendar, FiSearch, FiPhoneCall, FiUser } from "react-icons/fi";
 import "react-datepicker/dist/react-datepicker.css";
 import "tailwindcss/tailwind.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,20 +18,22 @@ const celebrityReviews = [
   { name: "Cristiano Ronaldo", review: "Super easy booking process and the car was spotless!", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2THqz6lYlzuvowWr53fKhYp4LH3XSl8thbg&s", rating: 4 },
   { name: "Adolf Hitler", review: "Loved the premium service and seamless experience!", image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTExIVFhUXFhcYGBgYGBcXGBcaGBgXGBcXFxcdHSggGB0lHRgXITEhJSkrLi4uGB8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAQEAxAMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAFAAECBAYDB//EAD8QAAEDAgQCCAUABgoDAAAAAAEAAhEDBAUSITFBUQYiYXGBkaHwEzKxwdEUI0Jy4fEHFTM0Q1Jic4KyFjXC/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APKQnCZOCgcBJJqSB08qMp0ClIpJFAikF0o0nOMNElFqPR2odSWgeJPkAgDBSRtmD0wYNRx7A2PUrheWIaTAd2TBHoUA0KbVAmE7XIOoKclc8ym1B0ClKhKlKCbV1auaclB1Ci5ynnXB5QP8RIVVDMol2qCy0JKAcB/JOgCAqQUQnQSTApJIHSSTFA4KcCSortbNkj+SA5hwc0QAffNHWnTrFscgDPqhlpYERmD530Mz2+5ROlTn9qR2tg+PA+SCtd16cRmI7tCPMIFe3GulR8c9D9IWgv20huXAjYg6fhZO8idDPgPsg4vcTxlRakna4cUHQNJ28lzmF3+O3YAx6/xXF54oO1Ny6AqnMKxTegsNKlmVfMptcg6yoEpnFRcUDk6qICUynAQSzdiZJrTwCSAWApJgnQOBKYlJMgdSptJMDUnYKIC0PRqzAms7YAwg5XOGtp0w3eoRLjy7AmwWwD2vMSWkevHwRawol7nFw1cfIcB2I9gfR85amkFztI27u1AKw67LupUIMbHj4+wu1680wSGkxydPlxVm5wHIZc3j9O5PXsGuad/X6oMLiF5ndIkDkVUlXMRow8jt4/lUgECJSBUXFMgkU8qCdA5TsfCikUFkOUgVwpngrDQgcFKUoUgECGimEoUuSCI7kk0pIBadME6BJFSUUEmj1WmuKwaxtNo0AE9scPNZuiYIPaFbNwS/NO2vv1Qa/o/SLnhoOsgu5d32Xp9hYgNAhY3+jrDp/WO46+P8oXozG7IKNXD2uOolBMXwjqEMG/aRH5WxNJUq1PWCg8Zxvo28GWyfBZe4oFmjh78V77cWTXcFmsd6MNqg9Xrcx6IPHJUSiuOYU6g8tc0jkY3QsiEEQU8pk6BJyop5QSB1VoKoFaZqEHQFTUGhdBsgcJOTSkUDpKLQefvzTIBgKkEydA8pQmJSCCTN1ew6galRre0Kra0y5wA7fRaLo3TLaskaiI07dUHrvRmyFOkBxWgtygWD1iWieSM2x0QWy9V3tngu5cohqAY8QVTeTzROu0IfcD0QBsZwmnXYQ9oM7FeVY/0Zq0HEgFzOY4d/5XslQgqvXsA8cEHgrgowvWsX6GUqgJDQ13ZoshddD3gw0+f5QZRJaGl0ZfPWcB+VVucLyn7D7IBS72507krqmBACVsOr4oO4U2lQYpB/YgnmUSUx71CZQdAe9Jcs5CdBQaE5KYFOgSZOkAgsWFbJUa6NAde7Zb3ALdpe07z/ADQrBuhIqtbmumU6z2Z20i2XZTsSZG/JbTongdWi3JWAOR3Vc0yC36hBpbVkABFbVUWs5rrTqawgIPqQuDrjU6obeXwbJzaIJV6SUWHV470GnfVGvH7KndVtEC/8utT/AIwlVa+LNOocCI5oCJudfH390RpVhG6xNXE41Vihikjc+5QaS5uwhFw0EygV30mpNnM8abxqfJDqvTKns1rvT8oD91RCyuLMgkro7pQ10zI5IffYkHtOqARen6pMEAKFbZdKT56oE6SfwgcFPmUHFKUHRzlzDpTFybMgl73SUc6SCsE4UQFMIGCeEkgg1mJVHOuviMJ6vwsrhwGVsR6r0fCMQf8ALU56O8l5rgD89LfWk4B3bTJlp/4mR3Fa29FSrctoteWtLmnTTTQyg3bRoq13UOUxy0Vpo07QqF7RLpDTE+9Cgy2MPp0R+vqZnnXKPegWSxcFhaKlPIyqJaXl2g4ugCfRem2mCUtXvAc48Xa/VDces2VW5Hsa9oMt5juduNgg8vtcLNSk+s0HK0gHUbkTsoWziDBLu9pMeIWsxC4yM+EymG0/8rTx5k7nzVHDrdxcSGiRBJ18kBWzwwvY0gyIQfHKrqYIGh271u8GtMlFYzpIf1gMbOB9UACjg+YwSMx0InQc8x59inj+Di2e5rmuILGmk4ABpOmYnnHW032WprP0DmRBjcA+ei6OvOqASBxjQgdwQY67wc06FKrLszy6WEcBs4dkR5ofTZP4WrxaoamhcXTuT9ghFK0h0xCAbcU4CuYK5oZVceDdO8yB6lVsQdrC5MJykcDB8kDSolSITQgjKQSSjigikpAJ0HBSSAToGTymSCAt0avBTrtzfI7qO7naT4GD4L152HEuZVbpVpAAiNHACDr3SvDWr3PoniourJr/APEDcj43zN0nx0PigLseTJIUqcKtbAtEOPWOvauNxXImCgs141goFf0xx13XGvfmV1t6TnnraBACdhrqroaABOs/daXD8Ip02hpHf29q6VnNpNlUMExP4lUtOyDT0LUFpAGkLzHpkzK/juvXLYQ093cV5X07pTUJQD8NuMwieHNWX2zp37kG6PPIqRzGi1YA3hAHZaGZduueJAQiFzUgIDiNaeOqDP3XzJDaE1U9ZOdkDFRckmQJMnIUQECJSSSQcwnTBShA0JFOEpQIFGcC6Q1bXMGHqu+Zs8tiORQdMg3mA9LX1Lyn8TRr+oZ13+X1hbm4XiFCplII3BBHeNQvaLW7FWkyoNnNafMbfVBQ+BJV41g1sKWXRVa7J0QD8Wv5GqK9BrVmV9R0TMeAE/dCrjDy5wA24lAul2I1KOWnSJaDuRMyPog9er4gxjCZEALzPppWY8ksfOixdpjtemCPiuIPBxLh6lVLrEqjxBd3wgti7yZXN3Bn8g9hWx/SOqCDuJ8159YxnAcCQd9VtjVBaIjbQIFca8+9Bb1sCUbeNBqgeKOEHVAH4ymIXQBRc1BzKikQFFA5KYJJkDlJOAkg5gJ4TBSKBkwKdJAgUgUoUkCaF630WoFlpRa7ctzd2Ykgeq8uwu0NWqymBq9wH5+69kuKWSoxg+X4cD/hEek+SCJPBPSpyY4pZF1FQNQdqlDKPf1XmnS+kfiudrl/Z5bbeiNY3jFVxy0xI2ngqTMLuHth1RvZLZI9UGG4ea5xK1lx0ebTnPXA8FS/q2jwqOce6AgC0WmQtda1MzGnYxw8EFFgAdBI8eSI2tENiPcoLdy+GkoJe1Yg+9OCvYlU0QO9qyYQavECKtEVWUaYBGs6HtiELtsMY8AuloPEdYDvG6FW+IPYMgccnJaPo9WBkTugrXXRwFualWY/snVBbiye35mGO7RegsoM2LBHYBPJWrR1NhyuAcw84KDyssjRMQvUMR6M29X5W5SeLVm7zoZUbORwI7UGUSRar0frgxkTIAoKkmCcBAoSThMgZTAUWrTdDejbrqpLgRSaesY3/wBI70BL+jTC3OrfHI6rAQ083HTTwW/xZpID2/Mw5gOfMeIJCt0rdtNgawAAaAARCg7WdeG6AbXeC0PYZaRI8eaoXriQVZI+GTEZDMt5cyEMv2uZqDmYeO8cu9BypMDdSO5RusSLdGgSrFp1oE6K8bBh1Me44oMLiOao6TJ7IKZtIjZh8it8+hTYNAPRCb25BOhEIMxUZGsKBqHRXL6qOWqD3VaJQNe1whDjJU61RWbW14nwQcvgGQCiGH9R4cOcfhK4ZBBjZRtwSwn/AFEjwQbW3vA8REHiqt2NSJ07EMoVtGvA4A96IufmAPZ3ICXRuvmeaT6hkbdo7EZvxTaQ2fVYV8gh7TDm6iPUIxhF18WoC4yTv/FBsKOAUiAdde0pJG/A0lJB4KE6TU6BJJK1YWb6r202CXOIAA4oLOA4Q+5qimwdrjwaOJXsuH0GUAy3pw0NEnmQN3HvKXRTo6y0pBgEvOtR3M8u5VcLf8SpdVzsP1bfqfsgK0TnY49p9EPZW6+VXsCM0fP6oC57qdeSNJ9EEsXpkQUKp1SZiO7h/Aq7c4o2pLdjKEPrRoPqgmXBvy9U8Wn7KNTFy35vZ0Q24xMbOZ4jX+SF3OISYmRyO4jtQF7jGidjuqT8Q13j3yQWq4E6OXJ1s466mfFARuL8a6yhNxWzGSpOoOGsJC24uPggezty4yfDtRdkN31Ko038GCO0p6jsupOqB8SrSABuVapUsrMvAeyqNtSk53K7VfoQPVB3pHL1Dw2niFZoPykdq53tKRPLimYTA8EF+rtMKi6uadQPadJVkVSQovYCIhAVbibjrHqB90yBOqubofDuSQZcJ1EcFOmw7IHaF63/AEbdHRRpG6qjruHVn9lvPxWJ6O4IXOEtknZu/mvZbbDqops+J8oGoGkxtPYgek4/Dc8z1pPgdkIsrf4dlPF5Lz/yMj7I7XcHUzyIPYh2KU/1bWCYAHv3zQVsCfFGQeJUL63BM7zxXDAXjI9s6hx0701vejM6i7vaT/1QCL/DgdQgF2CwkQVuX0hmgqjiFo0nZBkGUwYzJXNhTjQ9iLXWExqEFuaTmnVBQucLG41VX9EI+UkdyM0aFR5gbKeJWBoUn1HaQ3T947epQZSvfuJIJzAEjU8u5XbLK7u4jiPyEFaFOnULHSNCEBx2h0VdlvJkhPRripsYdxHPuK6EwYiCgm50bd6hWMgd4+oXdjO2dlzvGQJ4SPqg0LKY13KqUWdYtPD6K3ZkkctAmumkHMEHPLldG6k5vEpPGzt9VLKYmPygibcHeEl1aBA1SQYe3t3OIa0EkmABx7l6d0R6BtZFW4GZ+4YNh3niVa6C9EhRAq1AM5Gg/wAvYFvcoAQVujmE0qTjlaATqOzsWqyaQQsTdY4ym8t4j0Rfo10np3EsmHjn+0OYQTxWzyiQNOXJBnnMCeS1t7cNDdSsVdXLGPIBEH07EAHB62W5qt56qWL0YqB2yomoGXzDwfojuKNkoOVvXzHK4wY0dz7F3r0I3lCqMlWxew2HGWgxm5cp7O1B0fSCj/V7HkdXWd12bJGhEc1eoMjQa8+SDla4QxusLD/0p14FG2aDLpqOHZs31nyXp9FmgnxXiuP3Tq95WrDUZixnLK3q6HwnxQZmpbObqf5qDhotALB9QdbQAQgbqZBIg6GPJBLDx+saDz+yMvokGIzDgCdR3O/KB035HNcOHBaK0vGVS3KYMag7z2dm6CFMA6BwB2yu6p/B8CueINIZBEaiOR8eKK3Vo1zdWghUqmDBwnO4AcCZ8uSAtZatbHAKyachU7QQIHAIhbiUFHLGim4Eju97KzWt9UmU4meKDlQaI1+ySg5+p0SQet0qei6xukKkDwVejc5hPmgAYzhzc+YiJPsq3hGHMAkDXmNCFev6LagIPBUOjd7nzt2LXER3IKnSHF303fDcdNweY/KxeK4i4mQVs8Tpsq161N2sUgdOBncHgV5lihLXZTJEmDwI59iCzVxrMaZd8zXt8pW7q1c3kvKHO1lanAcfGXI86gQCeOyDSXz8g03I0VaxeSwtdrJ171zY/OMyq3N9leGjaN+0oCNCu+2Exmpz1m8W9oWnwu6ZUbmpkObHPZAhD2HiHCfEaH0hZSjeVLWtLCQCRpwI7fyg3/SrF/0a0q1ZhxaWUx/qdoD6z4LzXBLLqNzGYGvirfSHF6t49jXAMpMg5Rrmdqp2zILgOX0QTvIY3sgzPvksfXuBUEjTfl75LSdIK80nRuW6/Q6LJ2tI5dtDJB5IKzlJpLSHN0ITuUGu7OxBrsIxL4zMrvnGveOYRCgzVw4+5WGtrg03BzeC2lhcB7WvHH0QdrRvXMjeVetqYneVQa8h499iKW3Pt2QdKrANVRrOGqIViSPfoqdQIB7nSkoVWa8Pfgkg9VbcSDHEILgF6SX0zuCYVF+Iw4AHQ6tP1b4KhYXGWvnGxdqgI4hizhXa2dA4T3Ljg978LELppPVy5u7Y/dDulDS25BA+aI8UE6X4kW16wbu6A488oGncgO9HsRNe4vav7IY1o8z+FmqNP9Iqml/mPl2hH+gtkWWVWod6jz5NEfWUHsf1d1mmNUAbGMNqW9QsftwPAhUhuvQOm9IPozAJiZ4juPBee0qmkRqg1WCYv+y6BpAVjEaYJDhw/is3ask6+a0NFxiD57x2H8oDWFXXVaNNPvoqXSK0kTEEcvuoWMtceXBFriHNg6yB/FBlLUSO0K3bv62u50+ync2nw3SNjIK4VADqEFPFIyPbPyyD5ahAKVeSBw281pcWZqdDDm5vEj8grHEoOlULkBBXWoPz5rm8IGeNO5E8EvcvUOztuw/xQ4pqZQbynqWntRNlWFl8FvcwaNyDB7o398loZAH3QXXDSFXe3Qrib0Dv4LlWu5Gukjvd5BByqvZxMGElXdSe7UMPidUkBe7+Vn7zvoudvuf3k6SAh0h/vFr+8z6hYTpX/eH/AO476pJIPQMI/wDW0u53/YrHXn9qzvH2TJINL0i/uvl9F56flH7ySSC/Y7e+YR+n8p/2z9Skkgs09meKuU/2O9JJBLGNm++BQKl+UkkE8Z3Z/t//AE5YZ2/kkkgnU+y5VEkkCPv1TNSSQFujn9s390rX1vfokkgr2fH3wXLD/mPf+UySA3bfKEkkkH//2Q==", rating: 5 }
 ];
+
 function Home() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
   const [pickupDate, setPickupDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
   const [selectedReview, setSelectedReview] = useState(null);
 
-  const phonePattern = /^[6-9]\d{9}$/; // Ensures a valid 10-digit Indian number
+  const phonePattern = /^[6-9]\d{9}$/;
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
-    if (!location || !phone || !pickupDate || !returnDate) {
+    if (!name || !location || !phone || !pickupDate || !returnDate) {
       toast.error("Please fill all fields before searching!");
       return;
     }
@@ -41,7 +43,7 @@ function Home() {
       return;
     }
 
-    const searchData = { location, phone, pickupDate, returnDate };
+    const searchData = { name, location, phone, pickupDate, returnDate };
 
     try {
       const response = await fetch("http://localhost:5000/api/search/", {
@@ -69,7 +71,6 @@ function Home() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      {/* Hero Section */}
       <motion.div 
         className="relative h-[600px] bg-gradient-to-r from-gray-900 to-gray-600"
         initial={{ y: -50, opacity: 0 }}
@@ -108,6 +109,20 @@ function Home() {
             transition={{ duration: 0.8, delay: 0.5 }}
           >
             <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              
+              {/* Name Field */}
+              <div className="relative">
+                <FiUser className="absolute left-3 top-3 text-gray-400" />
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  className="w-full pl-10 pr-3 py-2 border rounded-md"
+                  required
+                />
+              </div>
+
               <div className="relative">
                 <FiMapPin className="absolute left-3 top-3 text-gray-400" />
                 <select
@@ -163,10 +178,10 @@ function Home() {
 
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-blue-600 flex items-center justify-center space-x-2"
+                className="md:col-span-5 w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-blue-600 flex items-center justify-center space-x-2"
               >
                 <FiSearch />
-                <span>Search Cars</span>
+                <span>Book now</span>
               </button>
             </form>
           </motion.div>
