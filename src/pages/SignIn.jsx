@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 function SignIn() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "", // Changed from username to email (backend expects email)
+    email: "",
     password: "",
   });
 

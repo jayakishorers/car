@@ -21,16 +21,16 @@ function SignUp() {
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json(); // Get response JSON
+      const result = await response.json();
 
       if (!response.ok) {
         throw new Error(result.message || "Registration failed");
       }
 
       toast.success("Registration successful!");
-      setTimeout(() => navigate("/signin"), 1500); // Redirect to login after success
+      setTimeout(() => navigate("/signin"), 1500);
     } catch (error) {
-      toast.error(error.message); // Show specific error message
+      toast.error(error.message);
     }
   };
 

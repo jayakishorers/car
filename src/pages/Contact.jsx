@@ -26,7 +26,7 @@ function Contact() {
 
   return (
     <motion.div
-      className="min-h-screen bg-gray-900 text-white relative"
+      className="min-h-screen bg-gray-900 text-white relative px-4"
       style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80')",
         backgroundSize: 'cover',
@@ -44,8 +44,8 @@ function Contact() {
         transition={{ duration: 1 }}
       >
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl">Get in touch with us for any inquiries or support</p>
+          <h1 className="text-3xl sm:text-5xl font-bold mb-4">Contact Us</h1>
+          <p className="text-lg sm:text-xl">Get in touch with us for any inquiries or support</p>
         </div>
       </motion.div>
 

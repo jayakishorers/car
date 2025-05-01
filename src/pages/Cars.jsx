@@ -52,8 +52,8 @@ function Cars() {
   const navigate = useNavigate();
 
   return (
-    <motion.div 
-      className="min-h-screen flex flex-col items-center justify-center relative"
+    <motion.div
+      className="min-h-screen flex flex-col items-center justify-center relative px-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -69,19 +69,19 @@ function Cars() {
       </div>
 
       {/* Header Section */}
-      <motion.div 
+      <motion.div
         className="relative z-10 text-center text-white mb-12"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
       >
-        <h1 className="text-5xl font-bold mb-4">Our Premium Fleet</h1>
+        <h1 className="text-3xl sm:text-5xl font-bold mb-4">Our Premium Fleet</h1>
         <p className="text-lg">Choose from our selection of luxury and premium cars</p>
       </motion.div>
 
       {/* Cars Grid */}
       <motion.div 
-        className="relative z-10 max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        className="relative z-10 max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.4 }}
@@ -92,7 +92,7 @@ function Cars() {
             className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
             whileHover={{ scale: 1.05 }}
           >
-            <div className="relative h-56">
+            <div className="relative h-56 sm:h-64">
               <img
                 src={car.image}
                 alt={car.name}
@@ -108,7 +108,7 @@ function Cars() {
               </motion.div>
             </div>
             <div className="p-6 text-white">
-              <h3 className="text-2xl font-semibold mb-4">{car.name}</h3>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4">{car.name}</h3>
               <div className="flex justify-between items-center mb-4 text-gray-300">
                 <div className="flex items-center">
                   <FiUsers className="mr-2 text-gray-400" />

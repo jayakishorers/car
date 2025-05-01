@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  FiUser,
+  FiMapPin,
+  FiPhoneCall,
+  FiCalendar,
+  FiSearch,
+  FiMail,
+} from "react-icons/fi";
 import DatePicker from "react-datepicker";
-import { FiMapPin, FiCalendar, FiSearch, FiPhoneCall, FiUser } from "react-icons/fi";
 import "react-datepicker/dist/react-datepicker.css";
-import "tailwindcss/tailwind.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "tailwindcss/tailwind.css";
 import { motion } from "framer-motion";
 
-const tamilNaduCities = ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli', 'Vellore', 'Erode', 'Tirunelveli', 'Thoothukudi', 'Thanjavur'];
-
+// Sample celebrity reviews
 const celebrityReviews = [
   { name: "MS Dhoni", review: "The best rental experience! The cars were in excellent condition, and the service was top-notch!", image: "data:image/jpeg;base64,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", rating: 5 },
   { name: "Virat Kohli", review: "Top-class service and smooth booking process. Will definitely use this again!", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSABL70rUSdhYXUrDJtQA9HMLS3invhsyBGwQ&s", rating: 4 },
@@ -20,30 +25,54 @@ const celebrityReviews = [
 ];
 
 function Home() {
-  const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
   const [pickupDate, setPickupDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
   const [selectedReview, setSelectedReview] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const phonePattern = /^[6-9]\d{9}$/;
+  const tamilNaduCities = [
+    "Chennai",
+    "Coimbatore",
+    "Madurai",
+    "Salem",
+    "Tiruchirappalli",
+    "Vellore",
+    "Erode",
+    "Tirunelveli",
+    "Thoothukudi",
+    "Thanjavur",
+  ];
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
-    if (!name || !location || !phone || !pickupDate || !returnDate) {
+    if (!name || !email || !location || !phone || !pickupDate || !returnDate) {
       toast.error("Please fill all fields before searching!");
       return;
     }
 
-    if (!phonePattern.test(phone)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Enter a valid email address!");
+      return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(phone)) {
       toast.error("Enter a valid 10-digit phone number!");
       return;
     }
 
-    const searchData = { name, location, phone, pickupDate, returnDate };
+    const searchData = {
+      name,
+      email,
+      location,
+      phone,
+      pickupDate,
+      returnDate,
+    };
 
     try {
       const response = await fetch("http://localhost:5000/api/search/", {
@@ -55,7 +84,7 @@ function Home() {
       const data = await response.json();
       if (response.ok) {
         toast.success("Search stored successfully! Redirecting...");
-        setTimeout(() => navigate("/booking-success"), 1500);
+        setTimeout(() => (window.location.href = "/booking-success"), 1500);
       } else {
         toast.error(data.error || "Failed to store search data");
       }
@@ -64,53 +93,68 @@ function Home() {
     }
   };
 
+  const handleReviewClick = (index) => {
+    setSelectedReview(celebrityReviews[index]);
+    setCurrentIndex(index);
+  };
+
+  const handlePreviousReview = () => {
+    const prevIndex =
+      (currentIndex - 1 + celebrityReviews.length) % celebrityReviews.length;
+    setCurrentIndex(prevIndex);
+    setSelectedReview(celebrityReviews[prevIndex]);
+  };
+
+  const handleNextReview = () => {
+    const nextIndex = (currentIndex + 1) % celebrityReviews.length;
+    setCurrentIndex(nextIndex);
+    setSelectedReview(celebrityReviews[nextIndex]);
+  };
+
   return (
-    <motion.div 
-      className="min-h-screen bg-gray-100"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      <motion.div 
-        className="relative h-[600px] bg-gradient-to-r from-gray-900 to-gray-600"
+    <div className="min-h-screen bg-gray-100">
+      {/* Hero Section */}
+      <motion.div
+        className="relative h-[100vh] bg-gradient-to-r from-gray-900 to-gray-600"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 1 }}
       >
         <img
           src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80"
           alt="Luxury car"
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
-        <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-center">
-          <motion.h1 
-            className="text-6xl font-bold text-white mb-4"
+        <div className="absolute inset-0 bg-black bg-opacity-60" />
+        <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-center text-center">
+          <motion.h1
+            className="text-6xl sm:text-7xl font-bold text-white mb-4"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
             Find Your Perfect Drive
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-white mb-8"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            Premium cars at competitive prices
+            Premium cars at unbeatable prices
           </motion.p>
 
           {/* Booking Form */}
-          <motion.div 
-            className="bg-white p-6 rounded-lg shadow-lg max-w-4xl"
+          <motion.div
+            className="bg-white p-10 rounded-3xl shadow-lg max-w-6xl mx-auto z-10"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 1, delay: 0.6 }}
           >
-            <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              
-              {/* Name Field */}
+            <form
+              onSubmit={handleSearch}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
               <div className="relative">
                 <FiUser className="absolute left-3 top-3 text-gray-400" />
                 <input
@@ -118,7 +162,19 @@ function Home() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full pl-10 pr-3 py-2 border rounded-md"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+                  required
+                />
+              </div>
+
+              <div className="relative">
+                <FiMail className="absolute left-3 top-3 text-gray-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email address"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
                   required
                 />
               </div>
@@ -128,7 +184,7 @@ function Home() {
                 <select
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border rounded-md"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
                   required
                 >
                   <option value="">Select location</option>
@@ -147,7 +203,7 @@ function Home() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Phone number"
-                  className="w-full pl-10 pr-3 py-2 border rounded-md"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
                   required
                 />
               </div>
@@ -158,7 +214,7 @@ function Home() {
                   selected={pickupDate}
                   onChange={(date) => setPickupDate(date)}
                   placeholderText="Pick-up date"
-                  className="w-full pl-10 pr-3 py-2 border rounded-md"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
                   minDate={new Date()}
                   required
                 />
@@ -170,55 +226,100 @@ function Home() {
                   selected={returnDate}
                   onChange={(date) => setReturnDate(date)}
                   placeholderText="Return date"
-                  className="w-full pl-10 pr-3 py-2 border rounded-md"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
                   minDate={pickupDate || new Date()}
                   required
                 />
               </div>
 
-              <button
-                type="submit"
-                className="md:col-span-5 w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-blue-600 flex items-center justify-center space-x-2"
-              >
-                <FiSearch />
-                <span>Book now</span>
-              </button>
+              <div className="col-span-full">
+                <button
+                  type="submit"
+                  className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700"
+                >
+                  <FiSearch className="inline mr-2" /> Search
+                </button>
+              </div>
             </form>
           </motion.div>
         </div>
       </motion.div>
 
       {/* Celebrity Reviews */}
-      <motion.section 
-        className="py-12 bg-white"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-gray-900 text-center mb-8">
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
             Celebrity Reviews
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {celebrityReviews.map((review, index) => (
-              <motion.div
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {celebrityReviews.map((celebrity, index) => (
+              <div
                 key={index}
-                className="relative bg-white p-6 rounded-lg shadow-lg text-center cursor-pointer hover:scale-105 transition-all"
-                whileHover={{ scale: 1.05 }}
-                onClick={() => setSelectedReview(review)}
+                onClick={() => handleReviewClick(index)}
+                className="group bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl hover:scale-105 transform transition duration-300 cursor-pointer"
               >
-                <img src={review.image} alt={review.name} className="w-24 h-24 mx-auto rounded-full mb-4 object-cover" />
-                <h3 className="text-xl font-semibold mb-2">{review.name}</h3>
-                <p className="text-gray-600 text-sm">{review.review}</p>
-              </motion.div>
+                <img
+                  src={celebrity.image}
+                  alt={celebrity.name}
+                  className="w-24 h-24 rounded-full mx-auto object-cover mb-4 group-hover:scale-110 transition duration-300"
+                />
+                <h3 className="text-xl font-semibold text-center text-black-700">
+                  {celebrity.name}
+                </h3>
+                <h3 className="text-l font- text-center text-gray-700">
+                  {celebrity.review}
+                </h3>
+              </div>
             ))}
           </div>
-        </div>
-      </motion.section>
 
-      <ToastContainer position="bottom-right" />
-    </motion.div>
+          {selectedReview && (
+            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8 relative">
+                <button
+                  onClick={() => setSelectedReview(null)}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+                >
+                  &times;
+                </button>
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  <img
+                    src={selectedReview.image}
+                    alt={selectedReview.name}
+                    className="w-40 h-40 rounded-full object-cover"
+                  />
+                  <div className="text-center md:text-left">
+                    <h3 className="text-2xl font-bold mb-2 text-gray-800">
+                      {selectedReview.name}
+                    </h3>
+                    <p className="text-gray-600 text-lg">
+                      {selectedReview.review}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex justify-center mt-8 space-x-6">
+                  <button
+                    onClick={handlePreviousReview}
+                    className="w-12 h-12 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+                  >
+                    &larr;
+                  </button>
+                  <button
+                    onClick={handleNextReview}
+                    className="w-12 h-12 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+                  >
+                    &rarr;
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <ToastContainer />
+    </div>
   );
 }
 
