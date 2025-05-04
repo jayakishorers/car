@@ -1,15 +1,19 @@
+// src/pages/SignIn.js
+
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext";
 
 function SignIn() {
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const location = useLocation(); // 👈 Get current route info
+  const from = location.state?.from || "/dashboard"; // 👈 Default to dashboard
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +30,11 @@ function SignIn() {
 
       const userData = await response.json();
       toast.success("Login successful!");
-      localStorage.setItem("token", userData.token);
-      localStorage.setItem("user", JSON.stringify(userData.user));
 
-      setTimeout(() => navigate("/"), 1500);
+      login(userData.user, userData.token);
+
+      // 👇 Redirect to the original requested page or dashboard
+      setTimeout(() => navigate(from, { replace: true }), 1500);
     } catch (error) {
       toast.error(error.message);
     }
@@ -41,15 +46,13 @@ function SignIn() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-600 relative">
-      {/* Background Image */}
       <img
         src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=1920&q=80"
         alt="Luxury Car"
         className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
       />
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div> {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Login Form with Glassmorphism Effect */}
       <motion.div
         className="relative z-10 bg-white bg-opacity-10 backdrop-blur-md p-8 shadow-lg rounded-lg max-w-md w-full text-white"
         initial={{ opacity: 0, y: -20 }}

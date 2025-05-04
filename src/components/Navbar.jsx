@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // Optional: icon library
+// src/components/Navbar.js
+
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X } from 'lucide-react'; // Optional: icon library
+import { useAuth } from '../context/AuthContext';  // Import the useAuth hook
 
 function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, user, logout } = useAuth();  // Use the Auth context
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem("token"));
-    const handleStorageChange = () => setIsLoggedIn(!!localStorage.getItem("token"));
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    window.dispatchEvent(new Event("storage"));
-    navigate("/signin");
+    logout();  // Call the logout method from context
+    navigate("/signin");  // Redirect to sign-in page
+  };
+
+  const handleDashboardClick = () => {
+    if (!isLoggedIn) {
+      navigate("/signin", { state: { from: "/dashboard" } }); // Redirect to SignIn if not logged in
+    } else {
+      navigate("/dashboard"); // Redirect to Dashboard if logged in
+    }
   };
 
   return (
@@ -39,11 +40,15 @@ function Navbar() {
 
         {/* Links */}
         <div className={`flex-col sm:flex sm:flex-row sm:items-center sm:space-x-6 space-y-4 sm:space-y-0 absolute sm:static top-[60px] left-0 w-full sm:w-auto bg-white sm:bg-transparent px-4 sm:px-0 py-4 sm:py-0 z-50 transition-all duration-300 ${isMenuOpen ? "flex" : "hidden"}`}>
-          {/* Mobile Links: Auto-close on click */}
-          <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-gray-600 hover:text-primary">Home</Link>
-          <Link to="/cars" onClick={() => setIsMenuOpen(false)} className="text-gray-600 hover:text-primary">Cars</Link>
-          <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-gray-600 hover:text-primary">About</Link>
-          <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="text-gray-600 hover:text-primary">Contact</Link>
+          <Link to="/" className="text-gray-600 hover:text-primary">Home</Link>
+          <Link to="/cars" className="text-gray-600 hover:text-primary">Cars</Link>
+          <Link to="/about" className="text-gray-600 hover:text-primary">About</Link>
+          <Link to="/contact" className="text-gray-600 hover:text-primary">Contact</Link>
+
+          {/* Dashboard link */}
+          <button onClick={handleDashboardClick} className="text-gray-600 hover:text-primary">
+            Dashboard
+          </button>
 
           {isLoggedIn ? (
             <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
@@ -51,8 +56,8 @@ function Navbar() {
             </button>
           ) : (
             <>
-              <Link to="/signin" onClick={() => setIsMenuOpen(false)} className="text-primary hover:text-primary-dark">Sign In</Link>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600">
+              <Link to="/signin" className="text-primary hover:text-primary-dark">Sign In</Link>
+              <Link to="/signup" className="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600">
                 Sign Up
               </Link>
             </>

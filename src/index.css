@@ -11,4 +11,192 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #ffffff;
+}@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Poppins', Arial, sans-serif; /* Changed font to Poppins for a cleaner look */
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(145deg, rgba(22, 23, 31, 0.8), rgba(0, 0, 0, 0.6)); /* Dark gradient background */
+  color: #fff; /* White text for better contrast */
+  font-size: 16px;
+}
+
+h1, h2, h3 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600; /* Bold for headers */
+}
+
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: #1a73e8; /* A soft blue accent */
+}
+
+p, ul, li {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+ul {
+  padding-left: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: #1a73e8; /* Soft blue for links */
+}
+
+a:hover {
+  color: #fff; /* White color on hover for better visibility */
+}
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Softer, larger shadow for depth */
+  border-bottom: 2px solid #1a73e8; /* Accent line under navbar */
+}
+
+.logo a {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a73e8;
+}
+
+.nav-links a {
+  margin-left: 2rem;
+  color: #333;
+  font-size: 1.1rem;
+  transition: color 0.3s ease; /* Smooth hover transition */
+}
+
+.nav-links a:hover {
+  color: #1a73e8; /* Soft blue hover effect */
+}
+
+/* Home Page Styles */
+.home {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-form {
+  background: rgba(255, 255, 255, 0.8); /* Slight transparency for a modern look */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Large shadow for depth */
+  margin-top: 3rem;
+  transition: box-shadow 0.3s ease; /* Hover effect for the form */
+}
+
+.search-form:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2); /* Hover shadow effect */
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group select,
+.form-group input,
+.react-datepicker-wrapper {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease; /* Smooth transition for input fields */
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  border-color: #1a73e8; /* Focus color change */
+}
+
+.search-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #1557b0;
+}
+
+/* Booking Success Page Styles */
+.booking-success {
+  padding: 3rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.success-content {
+  background: rgba(255, 255, 255, 0.9); /* Slight transparency for modern feel */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.contact-message {
+  color: #1a73e8;
+  font-size: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.next-steps {
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.next-steps ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.next-steps li {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.next-steps li:before {
+  content: "✓";
+  color: #1a73e8;
+  position: absolute;
+  left: 0;
 }
