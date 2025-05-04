@@ -87,7 +87,7 @@ function Home() {
       const data = await response.json();
       if (response.ok) {
         toast.success("Search stored successfully! Redirecting...");
-        setTimeout(() => navigate("/booking-success"), 1000); // ✅ Fixed navigation
+        setTimeout(() => navigate("/booking-success"), 1000);
       } else {
         toast.error(data.error || "Failed to store search data");
       }
@@ -118,7 +118,7 @@ function Home() {
     <div className="min-h-screen bg-gray-100">
       {/* Hero Section */}
       <motion.div
-        className="relative h-[100vh] bg-gradient-to-r from-gray-900 to-gray-600"
+        className="relative min-h-[100vh] bg-gradient-to-r from-gray-900 to-gray-600"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
@@ -129,9 +129,9 @@ function Home() {
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
         />
         <div className="absolute inset-0 bg-black bg-opacity-60" />
-        <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-center text-center">
+        <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-center text-center sm:text-center md:text-left pt-20 pb-10">
           <motion.h1
-            className="text-6xl sm:text-7xl font-bold text-white mb-4"
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
@@ -139,7 +139,7 @@ function Home() {
             Find Your Perfect Drive
           </motion.h1>
           <motion.p
-            className="text-xl text-white mb-8"
+            className="text-lg sm:text-xl text-white mb-8"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -149,7 +149,7 @@ function Home() {
 
           {/* Booking Form */}
           <motion.div
-            className="bg-white p-10 rounded-3xl shadow-lg max-w-6xl mx-auto z-10"
+            className="bg-white px-4 py-6 sm:p-8 md:p-10 rounded-3xl shadow-lg w-full max-w-6xl mx-auto z-10"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, delay: 0.6 }}
@@ -238,7 +238,7 @@ function Home() {
               <div className="col-span-full">
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700"
+                  className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
                 >
                   <FiSearch className="inline mr-2" /> Search
                 </button>
@@ -248,10 +248,10 @@ function Home() {
         </div>
       </motion.div>
 
-      {/* Optional: Celebrity Reviews */}
+      {/* Celebrity Reviews Section */}
       <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-800">
             Celebrity Reviews
           </h2>
 
@@ -270,9 +270,7 @@ function Home() {
                 <h3 className="text-xl font-semibold text-center text-black-700">
                   {celebrity.name}
                 </h3>
-                <h3 className="text-l font- text-center text-gray-700">
-                  {celebrity.review}
-                </h3>
+                <p className="text-center text-gray-700">{celebrity.review}</p>
               </div>
             ))}
           </div>
