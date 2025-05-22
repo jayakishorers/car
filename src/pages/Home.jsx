@@ -116,6 +116,7 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <div className="pt-20"> {/* This pushes content below the fixed navbar */}</div>
       {/* Hero Section */}
       <motion.div
         className="relative min-h-[100vh] bg-gradient-to-r from-gray-900 to-gray-600"
@@ -165,7 +166,7 @@ function Home() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl text-gray-800"
                   required
                 />
               </div>
@@ -177,7 +178,7 @@ function Home() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email address"
-                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl text-gray-800"
                   required
                 />
               </div>
@@ -187,7 +188,7 @@ function Home() {
                 <select
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl text-gray-800"
                   required
                 >
                   <option value="">Select location</option>
@@ -206,7 +207,7 @@ function Home() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Phone number"
-                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl text-gray-800"
                   required
                 />
               </div>
@@ -217,7 +218,7 @@ function Home() {
                   selected={pickupDate}
                   onChange={(date) => setPickupDate(date)}
                   placeholderText="Pick-up date"
-                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl text-gray-800"
                   minDate={new Date()}
                   required
                 />
@@ -229,7 +230,7 @@ function Home() {
                   selected={returnDate}
                   onChange={(date) => setReturnDate(date)}
                   placeholderText="Return date"
-                  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+                  className="w-full pl-10 pr-3 py-3 border rounded-xl text-gray-800"
                   minDate={pickupDate || new Date()}
                   required
                 />

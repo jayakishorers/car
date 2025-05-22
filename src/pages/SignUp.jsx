@@ -10,6 +10,7 @@ function SignUp() {
     username: "",
     email: "",
     password: "",
+    phone: "",  // Added phone here
   });
 
   const handleSubmit = async (e) => {
@@ -40,15 +41,13 @@ function SignUp() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-600 relative">
-      {/* Background Image */}
       <img
         src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=1920&q=80"
         alt="Luxury Car"
         className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
       />
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div> {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Signup Form with Glassmorphism Effect */}
       <motion.div
         className="relative z-10 bg-white bg-opacity-10 backdrop-blur-md p-8 shadow-lg rounded-lg max-w-md w-full text-white"
         initial={{ opacity: 0, y: -20 }}
@@ -71,6 +70,19 @@ function SignUp() {
             transition={{ duration: 0.5, delay: 0.2 }}
           />
 
+          {/* New phone input */}
+          <motion.input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="Phone Number"
+            className="w-full px-4 py-2 border border-white bg-transparent rounded-md focus:ring-2 focus:ring-primary text-white placeholder-gray-300"
+            required
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          />
           <motion.input
             type="email"
             name="email"
@@ -96,6 +108,7 @@ function SignUp() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           />
+
 
           <motion.button
             type="submit"

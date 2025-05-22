@@ -1,5 +1,3 @@
-// src/pages/SignIn.js
-
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -10,8 +8,8 @@ import { useAuth } from "../context/AuthContext";
 function SignIn() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // 👈 Get current route info
-  const from = location.state?.from || "/dashboard"; // 👈 Default to dashboard
+  const location = useLocation();
+  const from = location.state?.from || "/dashboard";
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -31,10 +29,17 @@ function SignIn() {
       const userData = await response.json();
       toast.success("Login successful!");
 
+      // Store user info using context
       login(userData.user, userData.token);
 
-      // 👇 Redirect to the original requested page or dashboard
-      setTimeout(() => navigate(from, { replace: true }), 1500);
+      // Redirect based on email
+      setTimeout(() => {
+        if (userData.user.email === "123@gmail.com") {
+          navigate("/secret", { replace: true });
+        } else {
+          navigate(from, { replace: true });
+        }
+      }, 1500);
     } catch (error) {
       toast.error(error.message);
     }
