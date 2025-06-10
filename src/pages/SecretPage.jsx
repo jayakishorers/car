@@ -45,7 +45,7 @@ export default function SecretPage() {
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/search/all');
+      const res = await fetch('https://backend-i828.onrender.com/api/search/all');
       if (!res.ok) throw new Error('Failed to fetch bookings');
       const data = await res.json();
       setBookings(data);
@@ -58,7 +58,9 @@ export default function SecretPage() {
 
   const updateStatus = async (id, action) => {
     try {
-      const res = await fetch(`/api/search/${action}/${id}`, { method: 'PUT' });
+      const res = await fetch(`https://backend-i828.onrender.com/api/search/${action}/${id}`, {
+  method: 'PUT',
+});
       if (!res.ok) throw new Error('Failed update');
       const updated = await res.json();
       toast.success(`✅ Booking ${action}ed`);
@@ -84,7 +86,9 @@ export default function SecretPage() {
     let successCount = 0;
     for (const id of ids) {
       try {
-        const res = await fetch(`/api/search/${action}/${id}`, { method: 'PUT' });
+        const res = await fetch(`https://backend-i828.onrender.com/api/search/${action}/${id}`, {
+  method: 'PUT',
+});
         if (res.ok) {
           const updated = await res.json();
           setBookings((prev) =>

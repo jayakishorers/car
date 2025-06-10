@@ -33,7 +33,7 @@ const Dashboard = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/search/history/${user.email}`);
+      const res = await axios.get(`https://backend-i828.onrender.com/api/search/history/${user.email}`);
       setBookingHistory(res.data);
     } catch (error) {
       console.error('Failed to fetch booking history:', error);
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   const fetchUserProfile = async (email) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/users/profile/${email}`);
+      const res = await axios.get(`https://backend-i828.onrender.com/api/users/profile/${email}`);
       setProfile(res.data);
       setEditData({ username: res.data.username, phone: res.data.phone });
     } catch (error) {
@@ -54,7 +54,7 @@ const Dashboard = () => {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/search/cancel/${bookingId}`);
+      const res = await axios.put(`https://backend-i828.onrender.com/api/search/cancel/${bookingId}`);
       const updatedBooking = res.data;
       setBookingHistory((prev) =>
         prev.map((booking) => (booking._id === bookingId ? updatedBooking : booking))
@@ -78,7 +78,7 @@ const Dashboard = () => {
     }
     setSaving(true);
     try {
-      const res = await axios.put(`http://localhost:5000/api/users/update/${user.email}`, editData);
+      const res = await axios.put(`https://backend-i828.onrender.com/api/users/update/${user.email}`, editData);
       // Backend might return updated user directly or inside 'user'
       const updatedProfile = res.data.user || res.data;
       setProfile(updatedProfile);
